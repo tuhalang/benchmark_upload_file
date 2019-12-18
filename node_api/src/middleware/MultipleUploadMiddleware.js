@@ -14,7 +14,7 @@ let storage = multer.diskStorage({
   }
 });
 
-let uploadManyFiles = multer({storage: storage}).array("many-files", 17);
+let uploadManyFiles = multer({storage: storage}).array("many-files", 20);
 
 // Mục đích của util.promisify() là để bên controller có thể dùng async-await để gọi tới middleware này
 let multipleUploadMiddleware = util.promisify(uploadManyFiles);
