@@ -1,42 +1,24 @@
 const multipleUploadMiddleware = require("../middleware/MultipleUploadMiddleware");
 const logger = require("../log/winston");
 
-let debug = console.log.bind(console);
-
 let multipleUpload = async (req, res) => {
-  try {
-    // thực hiện upload
-    let startTime = Date.now();
-    await multipleUploadMiddleware(req, res);
-    let endTime = Date.now();
-    
-    logger.info('start request: ' + startTime);
-    logger.info('end request: ' + endTime);
-    logger.info('time execute: ' + (endTime - startTime) + ' ms');
+  
+  let startTime = Date.now();
+  req.files.manyfiles.forEach(file => {
+    file.mv('/home/hungpv/Documents/benchmark_upload_file/node_api/uploadResults/'+ Date.now() + file.name, function(error){
+      if(error != undefined)
+        console.log(error);
+    });
+  });
 
-    // Nếu upload thành công, không lỗi thì tất cả các file của bạn sẽ được lưu trong biến req.files
-    debug(req.files);
+  let endTime = Date.now();
 
-    // Mình kiểm tra thêm một bước nữa, nếu như không có file nào được gửi lên thì trả về thông báo cho client
-    if (req.files.length <= 0) {
-      return res.send(`You must select at least 1 file or more.`);
-    }
+  logger.info('Time execute: ' + (endTime - startTime));
+  return res.send(`Your files has been uploaded. Time execute: `+(Date.now() - startTime));
 
-    // trả về cho người dùng cái thông báo đơn giản.
-    return res.send(`Your files has been uploaded. Time execute: `+(endTime - startTime)s);
-  } catch (error) {
-    // Nếu có lỗi thì debug lỗi xem là gì ở đây
-    debug(error);
-
-    // Bắt luôn lỗi vượt quá số lượng file cho phép tải lên trong 1 lần
-    if (error.code === "LIMIT_UNEXPECTED_FILE") {
-      return res.send(`Exceeds the number of files allowed to upload.`);
-    }
-
-    return res.send(`Error when trying upload many files: ${error}}`);
-  }
 };
 
 module.exports = {
   multipleUpload: multipleUpload
 };
+//https://github.com/grpc/grpc-java/blob/master/examples/src/main/java/io/grpc/examples/helloworld/HelloWorldClient.java

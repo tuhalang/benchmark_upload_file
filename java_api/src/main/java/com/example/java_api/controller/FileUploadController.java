@@ -50,14 +50,12 @@ public class FileUploadController {
                         }
                     });
             end = (new Date()).getTime();
-            LOGGER.info("start request: " + start);
-            LOGGER.info("end request: " + end);
-            LOGGER.info("time execute: " + (end - start));
+            LOGGER.error("time execute: " + (end - start));
         }
         catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<String>("Files are uploaded. Time execute: " + (end - start), HttpStatus.OK);
+        return new ResponseEntity<String>("Files are uploaded. Time execute: " + ((new Date()).getTime() - start), HttpStatus.OK);
     }
 }

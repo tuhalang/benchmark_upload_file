@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.6",
+    "fileupload": "^1.0.0",
     "multer": "^1.4.2",
     "winston": "^3.2.1"
   }

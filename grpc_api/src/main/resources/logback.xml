@@ -38,7 +38,7 @@
         <appender-ref ref="Console" />
     </root>
 
-    <logger name="com.example.java_api.controller.FileUploadController" level="error" additivity="false">
+    <logger name="com.example.java_api.controller.FileUploadController" level="info" additivity="false">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </logger>

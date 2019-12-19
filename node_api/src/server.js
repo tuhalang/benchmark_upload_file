@@ -3,7 +3,9 @@
  * server.js
  */
 const express = require("express");
+const fileUpload = require("express-fileupload");
 const app = express();
+app.use(fileUpload());
 const initRoutes = require("./routes/web");
 
 // Cho phép lý dữ liệu từ form method POST
