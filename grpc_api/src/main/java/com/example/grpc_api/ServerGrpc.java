@@ -1,14 +1,23 @@
 package com.example.grpc_api;
 
+import com.example.grpc_api.model.Log;
+import com.example.grpc_api.repository.LogRepository;
+import com.example.grpc_api.service.BlobKeeperImpl;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
+@Controller
 public class ServerGrpc {
     private static final Logger logger = Logger.getLogger(ServerGrpc.class.getName());
     private static final int PORT = 5000;
+
+    @Autowired
+    LogRepository logRepository;
 
     private Server mServer;
 
@@ -49,8 +58,9 @@ public class ServerGrpc {
     /**
      * Main launches the mServer from the command line.
      */
-    public static void run() throws IOException, InterruptedException {
+    public void run() throws IOException, InterruptedException {
         final ServerGrpc server = new ServerGrpc();
+        BlobKeeperImpl.logRepository = logRepository;
         server.start();
         server.blockUntilShutdown();
     }

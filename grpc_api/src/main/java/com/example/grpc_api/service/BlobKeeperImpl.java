@@ -14,10 +14,12 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class BlobKeeperImpl extends BlobKeeperGrpc.BlobKeeperImplBase{
+
+    public static LogRepository logRepository;
 
     private final Logger logger = LoggerFactory.getLogger(BlobKeeperImpl.class.getName());
 
@@ -25,12 +27,9 @@ public class BlobKeeperImpl extends BlobKeeperGrpc.BlobKeeperImplBase{
     private String mMessage = "";
     private BufferedOutputStream mBufferedOutputStream = null;
 
-    @Autowired
-    LogRepository logRepository;
-
     @Override
     public StreamObserver<PutRequest> getBlob(final StreamObserver<PutResponse> responseObserver) {
-        logRepository.save(new Log("1234567890qwertyuiopasdfghjkl-11111111111111111111"));
+
         return new StreamObserver<PutRequest>() {
             int mmCount = 0;
             long start = 0l;
@@ -72,10 +71,10 @@ public class BlobKeeperImpl extends BlobKeeperGrpc.BlobKeeperImplBase{
             public void onCompleted() {
                 responseObserver.onNext(PutResponse.newBuilder().setStatus(mStatus).setMessage(mMessage).build());
                 responseObserver.onCompleted();
-
+                BlobKeeperImpl.logRepository.save(new Log("11111111111111111111111-2222222222222222222222222"));
                 end = (new Date()).getTime();
 
-                logger.info("Time execute: " + (end-start));
+                logger.error("Time execute: " + (end-start));
 
                 if (mBufferedOutputStream != null) {
                     try {

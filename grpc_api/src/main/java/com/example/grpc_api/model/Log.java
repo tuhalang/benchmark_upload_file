@@ -1,4 +1,4 @@
-package com.example.java_api.model;
+package com.example.grpc_api.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.example.java_api;
+package com.example.java_api.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +13,10 @@ public class Log {
     private Long id;
 
     private String message;
+
+    public Log(String message){
+        this.message = message;
+    }
 
     public Long getId() {
         return id;

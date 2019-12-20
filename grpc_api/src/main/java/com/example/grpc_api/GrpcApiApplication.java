@@ -2,23 +2,19 @@ package com.example.grpc_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
 
 @SpringBootApplication
 public class GrpcApiApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
-        SpringApplication.run(GrpcApiApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(GrpcApiApplication.class, args);
 
-        try {
-            ServerGrpc.run();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        context.getBean(ServerGrpc.class).run();
+
     }
 
 }

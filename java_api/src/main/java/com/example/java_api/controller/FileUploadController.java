@@ -1,7 +1,10 @@
 package com.example.java_api.controller;
 
+import com.example.java_api.model.Log;
+import com.example.java_api.repository.LogRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +29,9 @@ public class FileUploadController {
     private static String directory = System.getProperty("user.dir");
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUploadController.class);
 
+    @Autowired
+    LogRepository logRepository;
+
 
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     public ResponseEntity<?> uploadFile(
@@ -49,8 +55,10 @@ public class FileUploadController {
                         }catch (Exception e){
                         }
                     });
+            logRepository.save(new Log("1234567890qwertyuiopasdfghjkl"));
             end = (new Date()).getTime();
             LOGGER.error("time execute: " + (end - start));
+
         }
         catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
